@@ -248,3 +248,26 @@
 iframe {
   display: block;
 }
+
+/* Responsive styles for mobile devices */
+@media (max-width: 600px) {
+  .modal {
+    width: 90%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    padding: 10px;
+  }
+
+  .modal-image {
+    max-height: 70vh;
+  }
+
+  .birthday-title {
+    font-size: 2.5em;
+  }
+
+  .message {
+    font-size: 1.5em;
+  }
+}

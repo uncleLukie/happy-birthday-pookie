@@ -43,6 +43,10 @@ function App() {
 
     const images = [img1, img2, img3, img4, img5, img6];
 
+    // Long press detection
+    const [longPressTimer, setLongPressTimer] = useState(null);
+    const LONG_PRESS_DURATION = 600; // Duration in milliseconds
+
     useEffect(() => {
         // Update window dimensions on resize for confetti
         const handleResize = () => {
@@ -124,6 +128,22 @@ function App() {
         setSelectedVideoUrl(''); // Reset selected video
     };
 
+    // Long Press Handlers
+    const handleLongPressStart = (e, index) => {
+        e.preventDefault();
+        setLongPressTimer(
+            setTimeout(() => {
+                if (index === 2) {
+                    handleImageSecret();
+                }
+            }, LONG_PRESS_DURATION)
+        );
+    };
+
+    const handleLongPressEnd = () => {
+        clearTimeout(longPressTimer);
+    };
+
     return (
         <div className="app-container">
             {/* Background Music */}
@@ -182,13 +202,11 @@ function App() {
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.5 }}
                         onClick={() => openModal(src)}
-                        onContextMenu={(e) => {
-                            e.preventDefault();
-                            if (index === 2) {
-                                // Secret in the third image (index 2)
-                                handleImageSecret();
-                            }
-                        }}
+                        onMouseDown={(e) => handleLongPressStart(e, index)}
+                        onMouseUp={handleLongPressEnd}
+                        onMouseLeave={handleLongPressEnd}
+                        onTouchStart={(e) => handleLongPressStart(e, index)}
+                        onTouchEnd={handleLongPressEnd}
                     />
                 ))}
             </div>
@@ -271,7 +289,7 @@ function App() {
                     <ul>
                         <li>Secret 1: Sometimes double vision reveals hidden messages.</li>
                         <li>Secret 2: Hover over heartfelt words to uncover surprises.</li>
-                        <li>Secret 3: A right-click might show you more than meets the eye.</li>
+                        <li>Secret 3: Press and hold on a special photo to discover more.</li>
                     </ul>
                 </div>
             </Modal>
