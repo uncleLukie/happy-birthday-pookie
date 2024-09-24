@@ -201,6 +201,50 @@
   margin-bottom: 10px;
 }
 
+/* Video Section Styles */
+.video-section {
+  margin-top: 60px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.video-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 2em;
+  color: #ff69b4;
+  margin-bottom: 20px;
+}
+
+/* Video Select Buttons */
+.video-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.video-select-button {
+  background-color: #9ccfe7;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  font-family: 'Pacifico', cursive;
+  transition: background-color 0.3s;
+}
+
+.video-select-button:hover {
+  background-color: #82b8d6;
+}
+
+.video-player {
+  border: 5px solid #9ccfe7;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
 iframe {
-  display: none;
+  display: block;
 }

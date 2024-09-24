@@ -26,6 +26,15 @@ function App() {
         image: false,
     });
 
+    // State to control background music
+    const [isBackgroundMusicPlaying, setIsBackgroundMusicPlaying] = useState(true);
+
+    // State to control the video player
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+    // State to manage selected video URL
+    const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
+
     const images = [
         '/images/1.jpg',
         '/images/2.jpg',
@@ -97,12 +106,33 @@ function App() {
         setHintModalIsOpen(false);
     };
 
+    // Video Player Handlers
+    const handleVideoSelect = (url) => {
+        setSelectedVideoUrl(url);
+        setIsVideoPlaying(true);
+        setIsBackgroundMusicPlaying(false); // Pause background music
+    };
+
+    const handleVideoPause = () => {
+        setIsVideoPlaying(false);
+        setIsBackgroundMusicPlaying(true); // Resume background music
+        setSelectedVideoUrl(''); // Reset selected video
+    };
+
+    const handleVideoEnded = () => {
+        setIsVideoPlaying(false);
+        setIsBackgroundMusicPlaying(true); // Resume background music
+        setSelectedVideoUrl(''); // Reset selected video
+    };
+
     return (
         <div className="app-container">
+            {/* Background Music */}
             <ReactPlayer
                 url="https://www.youtube.com/watch?v=RgjUi098tQ4"
-                playing={true}
+                playing={isBackgroundMusicPlaying}
                 loop={true}
+                volume={0.5}
                 width="0"
                 height="0"
                 config={{
@@ -164,6 +194,7 @@ function App() {
                 ))}
             </div>
 
+            {/* Image Modal */}
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -255,6 +286,37 @@ function App() {
             >
                 You fill my life with sunshine and rainbows. Here's to more laughter, more adventures, and more love! 🌈💕
             </motion.p>
+
+            {/* Video Section */}
+            <div className="video-section">
+                <h2 className="video-title">ilysm</h2>
+                <div className="video-buttons">
+                    <button
+                        className="video-select-button"
+                        onClick={() => handleVideoSelect('https://www.youtube.com/watch?v=r34ZFys2URY')}
+                    >
+                        Play Video 1
+                    </button>
+                    <button
+                        className="video-select-button"
+                        onClick={() => handleVideoSelect('https://www.youtube.com/watch?v=5jgBLnTHKR8')}
+                    >
+                        Play Video 2
+                    </button>
+                </div>
+                {selectedVideoUrl && (
+                    <ReactPlayer
+                        url={selectedVideoUrl}
+                        playing={isVideoPlaying}
+                        controls={true}
+                        width="100%"
+                        height="360px"
+                        onPause={handleVideoPause}
+                        onEnded={handleVideoEnded}
+                        className="video-player"
+                    />
+                )}
+            </div>
         </div>
     );
 }
