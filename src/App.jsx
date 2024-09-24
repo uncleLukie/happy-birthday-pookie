@@ -33,7 +33,7 @@ function App() {
     });
 
     // State to control background music
-    const [isBackgroundMusicPlaying, setIsBackgroundMusicPlaying] = useState(true);
+    const [isBackgroundMusicPlaying, setIsBackgroundMusicPlaying] = useState(false);
 
     // State to control the video player
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -56,7 +56,21 @@ function App() {
             });
         };
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+
+        // Set up user interaction listener to start background music
+        const handleUserInteraction = () => {
+            setIsBackgroundMusicPlaying(true);
+            document.removeEventListener('click', handleUserInteraction);
+            document.removeEventListener('touchstart', handleUserInteraction);
+        };
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('click', handleUserInteraction);
+            document.removeEventListener('touchstart', handleUserInteraction);
+        };
     }, []);
 
     const openModal = (src) => {
@@ -156,7 +170,7 @@ function App() {
                 height="0"
                 config={{
                     youtube: {
-                        playerVars: { autoplay: 1, controls: 0, showinfo: 0, mute: 0 },
+                        playerVars: { autoplay: 1, controls: 0, showinfo: 0 },
                     },
                 }}
                 style={{ display: 'none' }}
